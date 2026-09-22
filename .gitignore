@@ -32,4 +32,4 @@ runs/
 *.ckpt
 
 # Local data roots (point DATA_DIR at your own ImageNet / ImageNet-C copy)
-data/
+data
