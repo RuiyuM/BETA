@@ -54,5 +54,19 @@ SSH deploy key; no password or GitHub token is stored in this repository.
 - RTX A5000: ViT-B/16 target and ViT-S/16 helper completed a BETA forward and
   backward step with synthetic images and random weights. Outputs were finite,
   prompt parameters updated, and reset restored their initial values.
-- ImageNet / ImageNet-C were not found in the user's inspected data directories;
-  dataset evaluation and pretrained weight downloads have not been validated.
+- The server now has the ImageNet-1K validation split under
+  `data/ImageNet/val/` (the project's `data` directory links to the dataset
+  storage location). Activating `beta` sets `DATA_DIR` automatically.
+  Source: [ILSVRC/imagenet-1k](https://huggingface.co/datasets/ILSVRC/imagenet-1k),
+  revision `49e2ee26f3810fb5a7536bbf732a7b07389a47b5`.
+- ImageNet-C is separate and has not been downloaded. Use `--corruption original`
+  for the clean validation set; the default `main.sh` targets ImageNet-C.
+  Full accuracy evaluation and pretrained weight downloads have not been validated.
+
+For clean ImageNet evaluation on the configured server:
+
+```bash
+conda activate beta
+CUDA_VISIBLE_DEVICES=0 python main.py --corruption original \
+  --data "$DATA_DIR/ImageNet" --algorithm beta --model vitb16 --local_helper vits16
+```
